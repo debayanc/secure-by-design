@@ -1,7 +1,6 @@
 from aws_cdk import (
-    # Duration,
     Stack,
-    # aws_sqs as sqs,
+    aws_s3 as s3,
 )
 from constructs import Construct
 
@@ -10,10 +9,10 @@ class SecureByDesignStack(Stack):
     def __init__(self, scope: Construct, construct_id: str, **kwargs) -> None:
         super().__init__(scope, construct_id, **kwargs)
 
-        # The code that defines your stack goes here
+        # Create an S3 bucket without security configurations to demonstrate the aspect warnings
 
-        # example resource
-        # queue = sqs.Queue(
-        #     self, "SecureByDesignQueue",
-        #     visibility_timeout=Duration.seconds(300),
-        # )
+        s3.Bucket(self, "SecureByDesignBucket",
+            bucket_name="secure-by-design-poc",
+        )
+
+      
