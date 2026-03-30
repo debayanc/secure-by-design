@@ -5,26 +5,29 @@ from aws_cdk import (
 )
 from constructs import Construct
 
-class SecureByDesignStack(Stack):
 
+class SecureByDesignStack(Stack):
     def __init__(self, scope: Construct, construct_id: str, **kwargs) -> None:
         super().__init__(scope, construct_id, **kwargs)
 
         # Create an S3 bucket without security configurations to demonstrate the aspect warnings
 
-        s3.Bucket(self, "SecureByDesignBucket",
+        s3.Bucket(
+            self,
+            "SecureByDesignBucket",
             bucket_name="secure-by-design-poc",
             block_public_access=s3.BlockPublicAccess.BLOCK_ALL,
             encryption=s3.BucketEncryption.S3_MANAGED,
-            lifecycle_rules=[s3.LifecycleRule(
-                enabled=True,
-                expiration=Duration.days(365),
-                transitions=[s3.Transition(
-                    storage_class=s3.StorageClass.GLACIER,
-                    transition_after=Duration.days(30)
-                )]
-            )]
-            
+            lifecycle_rules=[
+                s3.LifecycleRule(
+                    enabled=True,
+                    expiration=Duration.days(365),
+                    transitions=[
+                        s3.Transition(
+                            storage_class=s3.StorageClass.GLACIER,
+                            transition_after=Duration.days(30),
+                        )
+                    ],
+                )
+            ],
         )
-
-      
